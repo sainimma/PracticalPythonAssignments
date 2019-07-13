@@ -1,10 +1,16 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 import numpy as np
+import matplotlib.pyplot as plt
+
+# Assignment 1
+# The goal of this assignment is to introduce you to numpy and apply it to some basic
+# machine learning concepts. By the end of this assignment, you should be comfortable
+# with using numpy arrays and searching the numpy documentation to find appropriate mathematical
+# operations. You will also learn a little bit about linear regression, noisy data, the least-squares
+# cost function, and plotting data with matplotlib.
 
 # In supervised machine learning, you will have not only the values of observed data x_1 ... x_n,
-# but also some corresponding output value y. In linear regression, we attempt to determine the values of
+# but also some corresponding output value y (in unsupervised machine learning, we would not know the latter).
+# In linear regression, we attempt to determine the values of
 # a_1 ... a_n such that a_1 * x_1 + a_2 * x_2 + ... + a_n * x_n will most accurately predict
 # the value of y. Each a_i coefficient represents something called a "feature weight". This
 # signifies how strong the impact of variable x_i (a "feature") is in determining the value
@@ -26,7 +32,7 @@ def createRandomVector(d):
 
 # Often observed data will be provided to you as a matrix. The general convention is
 # that each row in the matrix is a separate observed data point and each column in the matrix
-# corresponds specific the values for a specific feature. So the value at row i and column j
+# corresponds to the values for a specific feature. So the value at row i and column j
 # is the observed value for the feature j within data point i. The convention is that X
 # is the variable used for the entire data matrix, and x is the variable used for an individual
 # data point vector.
@@ -50,14 +56,12 @@ def createRandomVector(d):
 def createRandomFeatureData(a_true, n):
     pass
 
-
 # In machine learning often we need to evaluate the accuracy of our model (i.e. our predicted understanding
 # of the world - in this case, our predicted feature weights) . We thus use some sort of
 # "score" function that evaluates our model and returns a number that describes how "good" our model is.
-# One common score function is sum of squared errors.
-# With this score function, for each data point i, we find the difference between the real y_i and 
-# the predicted y_i and square it. We then sum all these resulting values. With this score function,
-# a lower score implies a more accurate model than a higher one.
+# One common score function is sum of squared errors. With this score function, for each data point i,
+# we find the difference between the real y_i and the predicted y_i and square it. We then sum all these
+# resulting values. With this score function, a lower score implies a more accurate model than a higher one.
 #
 # There are two things to observe about this score function. 
 # 1) By squaring the error, our score function is affected only
@@ -97,6 +101,23 @@ a_true = createRandomVector(d)
 X, y = createRandomFeatureData(a_true, n)
 model = linearRegression(X, y)
 # The cost of the predicted model
-print(leastSquaresCostFunction(X, y, model))
+print("Predicted model cost:", leastSquaresCostFunction(X, y, model))
 # The cost of a dummy model where all feature weights are predicted 0.
-print(leastSquaresCostFunction(X, y, np.zeros((d, 1))))
+print("Dummy model (all zeros) cost:", leastSquaresCostFunction(X, y, np.zeros((d, 1))))
+
+
+# TODO: Update createRandomFeatureData() by allowing the user to pass in a third argument - the standard deviation
+# of the error. The name of that third argument should be "error_dev". If the user does not pass in this argument,
+# a default value of 0.5 should be used for error_dev. Incorporate the error_dev variable into your code for
+# createRandomFeatureData(). If done correctly, all your above code should work as before, but you will be able to
+# adjust how noisy the data is.
+# 
+# HINT: Look up Python default parameters.
+
+
+error_devs = [0, 0.1, 0.5, 1, 5, 10, 50, 100]
+# TODO: For each of the above error_devs, create a new set of random feature data consisting of n pieces of data and
+# with a_true as the "true" feature weights. Then run linear regression on the data and calculate the least-squares
+# cost of the resulting model. Create a line graph where the x-axis denotes the error deviations and the y-axis
+# denotes the least-squares cost. All axes should be accurately labeled and the graph must have a title.
+# Analyze the graph - what does it tell you about how effective our regression is as the data gets noisier?
